@@ -40,7 +40,7 @@ var petriNet = {
     { source: -1, target:  8, type: "normal",    weight: 0 },  // PREA 
 
 	//// Normal arcs:
-	// From IDLE to Banks:
+	// IDLE:
     { source:  0, target:  6, type: "normal",    weight: 1 },  // IDLE     -> ACT_0
     { source:  0, target:  7, type: "normal",    weight: 1 },  // IDLE     -> ACT_1
 
@@ -53,6 +53,9 @@ var petriNet = {
     { source:  1, target: 16, type: "normal",    weight: 1 },  // BANK_0   -> PRE_0
     { source:  1, target: 15, type: "normal",    weight: 1 },  // BANK_0   -> RDA_0
     { source:  1, target: 14, type: "normal",    weight: 1 },  // BANK_0   -> WRA_0
+    { source: 16, target:  0, type: "normal",    weight: 1 },  // PRE_0    -> IDLE
+    { source: 15, target:  0, type: "normal",    weight: 1 },  // RDA_0    -> IDLE
+    { source: 14, target:  0, type: "normal",    weight: 1 },  // WRA_0    -> IDLE
 
 	// BANK_0:
     { source:  7, target:  2, type: "normal",    weight: 1 },  // ACT_1    -> BANK_1
@@ -63,6 +66,9 @@ var petriNet = {
     { source:  2, target: 21, type: "normal",    weight: 1 },  // BANK_1   -> PRE_1
     { source:  2, target: 20, type: "normal",    weight: 1 },  // BANK_1   -> RDA_1
     { source:  2, target: 19, type: "normal",    weight: 1 },  // BANK_1   -> WRA_1
+    { source: 21, target:  0, type: "normal",    weight: 1 },  // PRE_1    -> IDLE
+    { source: 20, target:  0, type: "normal",    weight: 1 },  // RDA_1    -> IDLE
+    { source: 19, target:  0, type: "normal",    weight: 1 },  // WRA_1    -> IDLE
 
 	// PREA:
     { source:  8, target:  0, type: "normal",    weight: 2 },  // PREA     -> IDLE
@@ -115,10 +121,16 @@ var petriNet = {
 	// Powerdown
     { source:  3, target: 11, type: "inhibitor", weight: 1 },  // PDNA    -o PDE_PDNP
     { source:  3, target: 10, type: "inhibitor", weight: 1 },  // PDNA    -o SREFEN
-
+    { source:  3, target: 24, type: "inhibitor", weight: 1 },  // PDNA    -o PDE_PDNA
     { source:  5, target: 24, type: "inhibitor", weight: 1 },  // SREF    -o PDE_PDNA
     { source:  4, target: 24, type: "inhibitor", weight: 1 },  // PDNP    -o PDE_PDNA
     { source:  0, target: 24, type: "inhibitor", weight: 2 },  // IDLE    -o PDE_PDNA
+
+    //// Reset arcs:
+    { source:  0, target:  8, type: "reset",     weight: 1 },  // IDLE    >> PREA
+    { source:  1, target:  8, type: "reset",     weight: 1 },  // BANK_0  >> PREA
+    { source:  2, target:  8, type: "reset",     weight: 1 },  // BANK_1  >> PREA
+    
   ]
 };
 
@@ -130,28 +142,66 @@ function fireTransition(node)
 	})[0];
 
 	console.log(transition);
+
+    if(transition.enabled == 1 && transition.inhibited == 0)
+    {
+        // Clear connected Places with reset arcs:
+        petriNet.arcs.filter(function(d) { // Get all input arcs:
+            return (d.target == transition.id) && (d.type == "reset");
+        }).forEach(function(arc, i){ // Foreach input arc get the source place:
+            var place = petriNet.places.filter(function(f) {
+                return f.id == arc.source;
+            })[0];
+            place.tokens = 0;
+        });
+
+        // Clear connected input place:
+        petriNet.arcs.filter(function(d) { // Get all input arcs:
+            return (d.target == transition.id) && (d.type == "normal");
+        }).forEach(function(arc, i){ // Foreach input arc get the source place:
+            if(arc.source != -1)
+            {
+                var place = petriNet.places.filter(function(f) {
+                    return f.id == arc.source;
+                })[0];
+                place.tokens -= arc.weight;
+            }
+        });
+
+        // Set connected output place:
+        petriNet.arcs.filter(function(d) { // Get all input arcs:
+            return (d.source == transition.id) && (d.type == "normal");
+        }).forEach(function(arc, i){ // Foreach input arc get the source place:
+            var place = petriNet.places.filter(function(f) {
+                return f.id == arc.target;
+            })[0];
+            place.tokens += arc.weight;
+        });
+        
+        
+        checkEnabled();
+        checkInhibited();
+        display();
+        }
 }
 
 function checkInhibited()
 {
 	// Mark all enabled transitions:
 	petriNet.transitions.forEach(function(transition, j){
+	    transition.inhibited = 0;
 		petriNet.arcs.filter(function(d) { // Get all input arcs:
 			return (d.target == transition.id) && (d.type == "inhibitor");
 		}).forEach(function(arc, i){ // Foreach input arc get the source place:
-			var place = petriNet.places.filter(function(f) {
+			petriNet.places.filter(function(f) {
 				return f.id == arc.source;
-			})[0];
-
-			// TODO
-			if(place.tokens >= arc.weight)
-			{
-				transition.inhibited = 1;
-			}
-			else
-			{	
-				transition.inhibited = 0;
-			}
+			}).forEach(function(place, k){
+			    // TODO
+			    if(place.tokens >= arc.weight)
+			    {
+			    	transition.inhibited = 1;
+			    }
+            });
 		});
 	});
 }
@@ -224,9 +274,45 @@ function display()
 	});
 
 	// Clear Tokens:
-	document.getElementById("T_0").style.visibility    = 'hidden';
-	document.getElementById("T_1").style.visibility    = 'hidden';
+	document.getElementById("T_0").style.visibility = 'hidden';
+	document.getElementById("T_1").style.visibility = 'hidden';
+	document.getElementById("T_IDLE_0").style.visibility  = 'hidden';
+	document.getElementById("T_IDLE_1").style.visibility  = 'hidden';
 	document.getElementById("T_PDNA").style.visibility = 'hidden';
 	document.getElementById("T_SREF").style.visibility = 'hidden';
 	document.getElementById("T_PDNP").style.visibility = 'hidden';
+
+    // Show Tokens:
+	petriNet.places.forEach(function(place, j){
+		if(place.name == "BANK_0" && place.tokens == 1)
+        {
+            document.getElementById("T_0").style.visibility = 'visible';
+        }
+        else if(place.name == "BANK_1" && place.tokens == 1)
+        {
+            document.getElementById("T_1").style.visibility = 'visible';
+        }
+        else if(place.name == "IDLE" && place.tokens == 1)
+        {
+            document.getElementById("T_IDLE_0").style.visibility = 'visible';
+        }
+        else if(place.name == "IDLE" && place.tokens == 2)
+        {
+            document.getElementById("T_IDLE_0").style.visibility = 'visible';
+            document.getElementById("T_IDLE_1").style.visibility = 'visible';
+        }
+        else if(place.name == "PDNA" && place.tokens == 1)
+        {
+            document.getElementById("T_PDNA").style.visibility = 'visible';
+        }
+        else if(place.name == "SREF" && place.tokens == 1)
+        {
+            document.getElementById("T_SREF").style.visibility = 'visible';
+        }
+        else if(place.name == "PDNP" && place.tokens == 1)
+        {
+            document.getElementById("T_PDNP").style.visibility = 'visible';
+        }
+	});
+
 }
