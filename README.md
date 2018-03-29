@@ -4,7 +4,7 @@ The functionality of DRAMs, especially the state transitions are described in JE
 
 ## Paper
 
-**A New State Model for DRAMs Using Petri Nets ([Link](http://samos-conference.com/Resources_Samos_Websites/Proceedings_Repository_SAMOS/2017/50_Final_Paper.pdf))**
+**A New State Model for DRAMs Using Petri Nets ([Link](http://samos-conference.com/Resources_Samos_Websites/Proceedings_Repository_SAMOS/2017/Files/Paper_27.pdf))**
 M. Jung, K. Kraft, N. Wehn. *IEEE International Conference on Embedded Computer Systems Architectures Modeling and Simulation (SAMOS)*, July, 2017, Samos Island, Greece.
 
 ## Executable Model
