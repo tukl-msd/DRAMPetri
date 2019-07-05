@@ -18,6 +18,7 @@ var tRFC = 110;
 var tREFI = 7800;
 var tREFMAX = 9*tREFI ;
 
+var tRC = tRAS + tRP;
 var tRDWR = tRL + tCCD + 2*tCK - tWL;
 var tWRRD = tWL + tCCD + tWTR ;
 var tRDAACT = tRTP + tRP;
@@ -180,10 +181,14 @@ var petriNet = {
     { id:  13, source:   7, target:  20,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_1  -<> RDA_1
     { id:   4, source:   6, target:  14,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_0  -<> WRA_0
     { id:  14, source:   7, target:  19,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_1  -<> WRA_1
+    { id: 152, source:   6, target:   6,  type: "timed", name: "tRC",          delay: tRC,            age: -1 },  // ACT_0  -<> ACT_0
+    { id: 153, source:   7, target:   7,  type: "timed", name: "tRC",          delay: tRC,            age: -1 },  // ACT_1  -<> ACT_1
     { id: 108, source:   6, target:   7,  type: "timed", name: "tRRD",         delay: tRRD,           age: -1 },  // ACT_0  -<> ACT_1
     { id: 109, source:   7, target:   6,  type: "timed", name: "tRRD",         delay: tRRD,           age: -1 },  // ACT_1  -<> ACT_0 
     { id:  34, source:   6, target:  24,  type: "timed", name: "tACTPDEN",     delay: tACTPDEN,       age: -1 },  // ACT_0  -<> PDEA
     { id:  35, source:   7, target:  24,  type: "timed", name: "tACTPDEN",     delay: tACTPDEN,       age: -1 },  // ACT_1  -<> PDEA
+    { id: 154, source:   6, target:   9,  type: "timed", name: "tRC",          delay: tRC,            age: -1 },  // ACT_0  -<> REFA
+    { id: 155, source:   7, target:   9,  type: "timed", name: "tRC",          delay: tRC,            age: -1 },  // ACT_1  -<> REFA
   
     // Timing constraints from RD/RDA
     { id:   5, source:  12, target:  16,  type: "timed", name: "tRTP",         delay: tRTP,           age: -1 },  // RD_0   -<> PRE_0
@@ -315,6 +320,8 @@ var petriNet = {
     { id:  20, source:   9, target:   6,  type: "timed", name: "tRFC" ,        delay: tRFC,           age: -1 },  // REFA   -<> ACT_0
     { id:  21, source:   9, target:   7,  type: "timed", name: "tRFC",         delay: tRFC,           age: -1 },  // REFA   -<> ACT_1
     { id: 132, source:   9, target:   9,  type: "timed", name: "tRFC",         delay: tRFC,           age: -1 },  // REFA   -<> REFA
+    { id: 150, source:   9, target:   8,  type: "timed", name: "tRFC",         delay: tRFC,           age: -1 },  // REFA   -<> PREA
+    { id: 151, source:   9, target:  10,  type: "timed", name: "tRFC",         delay: tRFC,           age: -1 },  // REFA   -<> SREFEN
     { id: 133, source:   9, target:  11,  type: "timed", name: "tREFPDEN",     delay: tREFPDEN,       age: -1 },  // REFA   -<> PDEP
     { id:  24, source:  25, target:   6,  type: "timed", name: "tXS",          delay: tXS,            age: -1 },  // SREFEX -<> ACT_0
     { id:  25, source:  25, target:   7,  type: "timed", name: "tXS",          delay: tXS,            age: -1 },  // SREFEX -<> ACT_1
