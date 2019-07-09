@@ -1,6 +1,7 @@
 // Matthias Jung
 
 var blinker = 0;
+var tCKinRT = 1000; // ms
 
 var tCK = 2.5;
 var tCCD = 10;
@@ -173,6 +174,8 @@ var petriNet = {
     // Timing constraints from ACT
     { id:   0, source:   6, target:  16,  type: "timed", name: "tRAS",         delay: tRAS,           age: -1 },  // ACT_0  -<> PRE_0
     { id:  10, source:   7, target:  21,  type: "timed", name: "tRAS",         delay: tRAS,           age: -1 },  // ACT_1  -<> PRE_1
+    { id: 156, source:   6, target:   8,  type: "timed", name: "tRAS",         delay: tRAS,           age: -1 },  // ACT_0  -<> PREA
+    { id: 157, source:   7, target:   8,  type: "timed", name: "tRAS",         delay: tRAS,           age: -1 },  // ACT_1  -<> PREA
     { id:   1, source:   6, target:  12,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_0  -<> RD_0
     { id:  11, source:   7, target:  17,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_1  -<> RD_1
     { id:   2, source:   6, target:  13,  type: "timed", name: "tRCD",         delay: tRCD,           age: -1 },  // ACT_0  -<> WR_0
@@ -537,7 +540,7 @@ function init(evt) {
     checkEnabled();
     checkInhibited();
     display();
-    setTimeout(clock, 1000);
+    setTimeout(clock, tCKinRT);
     
     petriNet.arcs.filter(function(arc) { // Get all timed arcs:
     return (arc.type == "timed");
@@ -628,12 +631,12 @@ function clock() {
         return (d.type == "timed");
     }).forEach(function(arc, i) { // Foreach timed arc increase the age:
         if(arc.age != -1) {
-            arc.age += 2.5;
+            arc.age += tCK;
         }
     });
     
     checkTimed();
     display();
 
-    setTimeout(clock, 1000);
+    setTimeout(clock, tCKinRT);
 }
