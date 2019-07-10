@@ -236,6 +236,8 @@ var petriNet = {
     { id:  47, source:  20, target:   9,  type: "timed", name: "tRTP + tRP",   delay: (tRTP + tRP),   age: -1 },  // RDA_1  -<> REFA
     { id:  48, source:  15, target:  10,  type: "timed", name: "tRDPDEN",      delay: tRDPDEN,        age: -1 },  // RDA_0  -<> SREFEN
     { id:  49, source:  20, target:  10,  type: "timed", name: "tRDPDEN",      delay: tRDPDEN,        age: -1 },  // RDA_1  -<> SREFEN
+    { id: 158, source:  15, target:   8,  type: "timed", name: "tRTP",         delay: tRTP,           age: -1 },  // RDA_0  -<> PREA
+    { id: 159, source:  20, target:   8,  type: "timed", name: "tRTP",         delay: tRTP,           age: -1 },  // RDA_1  -<> PREA
 
     // Timing constraints from WR/WRA
     { id:   7, source:  13, target:  16,  type: "timed", name: "tWRPRE",       delay: tWRPRE,         age: -1 },  // WR_0   -<> PRE_0
@@ -278,6 +280,8 @@ var petriNet = {
     { id:  57, source:  19, target:   9,  type: "timed", name: "tWRPRE + tRP", delay: (tWRPRE + tRP), age: -1 },  // WRA_1  -<> REFA
     { id:  58, source:  14, target:  10,  type: "timed", name: "tWRAPDEN",     delay: tWRAPDEN,       age: -1 },  // WRA_0  -<> SREFEN
     { id:  59, source:  19, target:  10,  type: "timed", name: "tWRAPDEN",     delay: tWRAPDEN,       age: -1 },  // WRA_1  -<> SREFEN
+    { id: 160, source:  14, target:   8,  type: "timed", name: "tWRPRE",       delay: tWRPRE,         age: -1 },  // WRA_0  -<> PREA
+    { id: 161, source:  19, target:   8,  type: "timed", name: "tWRPRE",       delay: tWRPRE,         age: -1 },  // WRA_1  -<> PREA
   
     // Timing constraints from PRE/PREA
     { id:   9, source:  16, target:   6,  type: "timed", name: "tRP",          delay: tRP,            age: -1 },  // PRE_0  -<> ACT_0
