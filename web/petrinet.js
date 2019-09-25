@@ -326,8 +326,8 @@ var petriNet = {
     { id:  18, source:  19, target:   7,  type: "timed", name: "tWRAACT",      delay: tWRAACT,        age: -1 },  // WRA_1  -<> ACT_1
     { id:  56, source:  14, target:   9,  type: "timed", name: "tWRPRE + tRP", delay: (tWRPRE + tRP), age: -1 },  // WRA_0  -<> REFA
     { id:  57, source:  19, target:   9,  type: "timed", name: "tWRPRE + tRP", delay: (tWRPRE + tRP), age: -1 },  // WRA_1  -<> REFA
-    { id:  58, source:  14, target:  10,  type: "timed", name: "tWRAPDEN",     delay: tWRAPDEN,       age: -1 },  // WRA_0  -<> SREFEN
-    { id:  59, source:  19, target:  10,  type: "timed", name: "tWRAPDEN",     delay: tWRAPDEN,       age: -1 },  // WRA_1  -<> SREFEN
+    { id:  58, source:  14, target:  10,  type: "timed", name: "tWRPRE + tRP", delay: (tWRPRE + tRP), age: -1 },  // WRA_0  -<> SREFEN
+    { id:  59, source:  19, target:  10,  type: "timed", name: "tWRPRE + tRP", delay: (tWRPRE + tRP), age: -1 },  // WRA_1  -<> SREFEN
     { id: 160, source:  14, target:   8,  type: "timed", name: "tWRPRE",       delay: tWRPRE,         age: -1 },  // WRA_0  -<> PREA
     { id: 161, source:  19, target:   8,  type: "timed", name: "tWRPRE",       delay: tWRPRE,         age: -1 },  // WRA_1  -<> PREA
   
