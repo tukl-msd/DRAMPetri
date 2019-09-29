@@ -12,7 +12,7 @@ M. Jung, K. Kraft, N. Wehn. *IEEE International Conference on Embedded Computer 
 
 ## Executable Model
 
-In order to run the executable models click [here (non-timed version)](https://tukl-msd.github.io/DRAMPetri/web/), [here (timed version)](https://tukl-msd.github.io/DRAMPetri/web-timed/), or open the index.html file in the web or web-timed folder after cloning the repository.
+In order to run the executable models click [here](https://tukl-msd.github.io/DRAMPetri/web/), or open the index.html file in the web folder after cloning the repository.
 
 ## Playground with pflow Files
 
