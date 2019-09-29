@@ -1,3 +1,5 @@
+// Tim Burchert
+// Melissa Maria Barbosa da Silva
 // Matthias Jung
 
 var blinker = 0;
@@ -48,29 +50,30 @@ var petriNet = {
     { id: 3, name: "PDNA"   , tokens: 0 },
     { id: 4, name: "PDNP"   , tokens: 0 },
     { id: 5, name: "SREF"   , tokens: 0 },
+	{ id: 99, name: "Command_Bus" , tokens: 1, age: 0, minReqAge: tCK }
   ],
 
   transitions: [
-    { id:  6, name: "ACT_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id:  7, name: "ACT_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id:  8, name: "PREA"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id:  9, name: "REFA"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 10, name: "SREFEN"   , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 11, name: "PDEP"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 12, name: "RD_0"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 13, name: "WR_0"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 14, name: "WRA_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 15, name: "RDA_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 16, name: "PRE_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 17, name: "RD_1"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 18, name: "WR_1"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 19, name: "WRA_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 20, name: "RDA_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 21, name: "PRE_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 22, name: "PDXA"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 23, name: "PDXP"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 24, name: "PDEA"     , enabled: 0 , inhibited: 0, timedInhibited: 0 },
-    { id: 25, name: "SREFEX"   , enabled: 0 , inhibited: 0, timedInhibited: 0 }
+    { id:  6, name: "ACT_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id:  7, name: "ACT_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id:  8, name: "PREA"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id:  9, name: "REFA"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 10, name: "SREFEN"   , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 11, name: "PDEP"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 12, name: "RD_0"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 13, name: "WR_0"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 14, name: "WRA_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 15, name: "RDA_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 16, name: "PRE_0"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 17, name: "RD_1"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 18, name: "WR_1"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 19, name: "WRA_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 20, name: "RDA_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 21, name: "PRE_1"    , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 22, name: "PDXA"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 23, name: "PDXP"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 24, name: "PDEA"     , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 },
+    { id: 25, name: "SREFEX"   , enabled: 0 , inhibited: 0, timedInhibited: 0, commandBus: 1 }
   ],
 
   arcs: [
@@ -129,6 +132,49 @@ var petriNet = {
     { source: 11, target:  4, type: "normal",    weight: 1 },  // PDEP     -> PDNP
     { source:  4, target: 23, type: "normal",    weight: 1 },  // PDNP     -> PDXP
     { source: 23, target:  0, type: "normal",    weight: 2 },  // PDXP     -> IDLE
+	
+	
+	// Command_Bus arcs:
+	{ source: 99, target: 6, type: "normal", weight: 1 },     // Command_Bus    -> ACT_0
+	{ source: 6, target: 99, type: "normal", weight: 1 },     // ACT_0          -> Command_Bus
+	{ source: 99, target: 7, type: "normal", weight: 1 },     // Command_Bus    -> ACT_1
+	{ source: 7, target: 99, type: "normal", weight: 1 },     // ACT_1          -> Command_Bus
+	{ source: 99, target: 15, type: "normal", weight: 1 },    // Command_Bus    -> RDA_0
+	{ source: 15, target: 99, type: "normal", weight: 1 },    // RDA_0          -> Command_Bus
+    { source: 99, target: 20, type: "normal", weight: 1 },    // Command_Bus    -> RDA_1
+	{ source: 20, target: 99, type: "normal", weight: 1 },    // RDA_1          -> Command_Bus
+    { source: 99, target: 12, type: "normal", weight: 1 },    // Command_Bus    -> RD_0
+	{ source: 12, target: 99, type: "normal", weight: 1 },    // RD_0           -> Command_Bus
+	{ source: 99, target: 17, type: "normal", weight: 1 },    // Command_Bus    -> RD_1
+	{ source: 17, target: 99, type: "normal", weight: 1 },    // RD_1           -> Command_Bus
+    { source: 99, target: 14, type: "normal", weight: 1 },    // Command_Bus    -> WRA_0
+	{ source: 14, target: 99, type: "normal", weight: 1 },    // WRA_0          -> Command_Bus	
+    { source: 99, target: 19, type: "normal", weight: 1 },    // Command_Bus    -> WRA_1
+	{ source: 19, target: 99, type: "normal", weight: 1 },    // WRA_1          -> Command_Bus	
+    { source: 99, target: 16, type: "normal", weight: 1 },    // Command_Bus    -> PRE_0
+	{ source: 16, target: 99, type: "normal", weight: 1 },    // PRE_0          -> Command_Bus
+	{ source: 99, target: 21, type: "normal", weight: 1 },    // Command_Bus    -> PRE_1
+	{ source: 21, target: 99, type: "normal", weight: 1 },    // PRE_1          -> Command_Bus
+	{ source: 99, target: 13, type: "normal", weight: 1 },    // Command_Bus    -> WR_0
+	{ source: 13, target: 99, type: "normal", weight: 1 },    // WR_0           -> Command_Bus
+	{ source: 99, target: 18, type: "normal", weight: 1 },    // Command_Bus    -> WR_1
+	{ source: 18, target: 99, type: "normal", weight: 1 },    // WR_1           -> Command_Bus
+	{ source: 99, target: 8, type: "normal", weight: 1 },     // Command_Bus    -> PREA
+	{ source: 8, target: 99, type: "normal", weight: 1 },     // PREA           -> Command_Bus
+	{ source: 99, target: 9, type: "normal", weight: 1 },     // Command_Bus    -> REFA
+	{ source: 9, target: 99, type: "normal", weight: 1 },     // REFA           -> Command_Bus
+	{ source: 99, target: 10, type: "normal", weight: 1 },    // Command_Bus    -> SREFEN
+	{ source: 10, target: 99, type: "normal", weight: 1 },    // SREFEN         -> Command_Bus
+	{ source: 99, target: 11, type: "normal", weight: 1 },    // Command_Bus    -> PDEP
+	{ source: 11, target: 99, type: "normal", weight: 1 },    // PDEP           -> Command_Bus
+	{ source: 99, target: 24, type: "normal", weight: 1 },    // Command_Bus    -> PDEA
+	{ source: 24, target: 99, type: "normal", weight: 1 },    // PDEA           -> Command_Bus
+	{ source: 99, target: 23, type: "normal", weight: 1 },    // Command_Bus    -> PDXP
+	{ source: 23, target: 99, type: "normal", weight: 1 },    // PDXP           -> Command_Bus
+	{ source: 99, target: 22, type: "normal", weight: 1 },    // Command_Bus    -> PDXA
+	{ source: 22, target: 99, type: "normal", weight: 1 },    // PDXA           -> Command_Bus
+	{ source: 25, target: 99, type: "normal", weight: 1 },    // SEFREX         -> Command_Bus
+	{ source: 99, target: 25, type: "normal", weight: 1 },    // Command_Bus    -> SREFEX
 
     //// Inhibitor Arcs:
     // BANK_0
@@ -356,7 +402,7 @@ function fireTransition(node) {
     
     //console.log(transition);
 
-    if(transition.enabled == 1 && transition.inhibited == 0 && transition.timedInhibited == 0)
+    if(transition.enabled == 1 && transition.inhibited == 0 && transition.timedInhibited == 0 && transition.commandBus == 1)
     {
         // Clear connected Places with reset arcs:
         petriNet.arcs.filter(function(d) { // Get all input arcs:
@@ -395,14 +441,22 @@ function fireTransition(node) {
         petriNet.arcs.filter(function(arc) { // Get all timed arcs:
             return (arc.source == transition.id) && (arc.type == "timed");
         }).forEach(function(arc, i) { // Foreach connected timed arc set the age to zero
-            console.log("FOUND");
             arc.age = 0;
         });    
           
+	
+	    //Resetting the age of the token in Command Bus
+	    petriNet.places.forEach(function(place, j){
+			if(place.id == 99){
+				place.age = 0;
+			}
+		});
+	
         checkEnabled();
         checkInhibited();
         checkTimed();
-        
+        checkCommandBus();
+		
         display();
     }
 }
@@ -463,30 +517,49 @@ function checkEnabled()
 {
     // Mark all enabled transitions:
     petriNet.transitions.forEach(function(transition, j) {
-        petriNet.arcs.filter(function(d) { // Get all input arcs:
-            return (d.target == transition.id) && (d.type == "normal");
-        }).forEach(function(arc, i) { // Foreach input arc get the source place:
+        connectedArcs = petriNet.arcs.filter(function(arc) { // Get all input arcs:
+            return (arc.target == transition.id) && (arc.type == "normal");
+        })
+		
+		var enable = 1;
+		
+		// Foreach input arc get the source places and check if they have enough tokens:
+		connectedArcs.forEach(function(arc, i) { 
             if(arc.source != -1) {
-                var place = petriNet.places.filter(function(f) {
-                    return f.id == arc.source;
+                var place = petriNet.places.filter(function(place) {
+                    return place.id == arc.source;
                 })[0];
-
-                // The transition is enabled when the connected
-                // place has more or equal tokens as the weight
-                if(place.tokens >= arc.weight) {
-                    transition.enabled = 1;
-                } else {    
-                    transition.enabled = 0;
-                }
-            } else {
-                transition.enabled = 1;
+		
+				if(place.tokens < arc.weight) {
+					enable = 0;
+				}	
             }
         });
+		
+		transition.enabled = enable;             
     });
 }
 
 
+function checkCommandBus()
+{
+   petriNet.transitions.forEach(function(transition, i) {
+	   
+		var place = petriNet.places.filter(function(d) {
+			return (d.id == 99);
+        })[0];
+	   
+	    if(place.age >= place.minReqAge){
+			transition.commandBus = 1;
+		} else {
+			transition.commandBus = 0;
+		}
+	}); 
+}
+
+
 function drawline (id, name, x1, x2, y1, y2) {
+	
     var svg = document.getElementById("svg4141");
     NS = svg.getAttribute('xmlns');
     var pt1 = svg.createSVGPoint();
@@ -508,7 +581,7 @@ function drawline (id, name, x1, x2, y1, y2) {
         ellipticLine.setAttributeNS(null, "fill", "none");
         ellipticLine.setAttributeNS(null, "marker-end", "url(#DiamondL)");
         ellipticLine.setAttributeNS(null, "visibility", "hidden");
-        svg.append(ellipticLine);
+        svg.append(ellipticLine); 
     } else {
         var newLine = document.createElementNS(NS, 'line');
         newLine.setAttributeNS(null, 'id', "timedArrow-" + id);
@@ -518,24 +591,28 @@ function drawline (id, name, x1, x2, y1, y2) {
         newLine.setAttributeNS(null, 'y2', pt2b.y + 16);
         newLine.setAttributeNS(null, "stroke", "blue");
         newLine.setAttributeNS(null, "marker-end", "url(#DiamondL)");
-        newLine.setAttributeNS(null, "visibility", "hidden");
-        svg.append(newLine);
-    }        
+        newLine.setAttributeNS(null, "visibility", "hidden"); }
+		
+		svg.append(newLine);
+		
     var newText = document.createElementNS(NS, "text");
     if (x1 == x2 && y1 == y2) {
         newText.setAttributeNS(null, "x", (pt1b.x - 16));        
         newText.setAttributeNS(null, "y", (pt1b.y - 12));
     } else {
         newText.setAttributeNS(null, "x", (pt1b.x - pt2b.x) / 2 + pt2b.x);
-        newText.setAttributeNS(null, "y", (pt1b.y - pt2b.y) / 2 + pt2b.y);
+        newText.setAttributeNS(null, "y", (pt1b.y - pt2b.y) / 2 + pt2b.y); 
+	
     }
-    newText.setAttributeNS(null, "font-size", "16");
+    
+	newText.setAttributeNS(null, "font-size", "16");
     newText.setAttributeNS(null, "fill", "blue");
     newText.setAttributeNS(null, 'id', "timedArrowText-" + id);
     newText.setAttributeNS(null, "visibility", "hidden");
-
-    var textNode = document.createTextNode(name);
+	
+	var textNode = document.createTextNode(name);
     newText.appendChild(textNode);
+
 
     svg.append(newText);
 }
@@ -562,8 +639,6 @@ function init(evt) {
         drawline(arc.id, arc.name, rect1.left, rect2.left, rect1.top, rect2.top);
     })
     
-    
-    
     // Register the click handler for all Transitions:
     for (i = 0; i < petriNet.transitions.length; i++) {
         (function(name) {
@@ -582,12 +657,13 @@ function clickHandler(node)
 function display()
 {
     petriNet.transitions.forEach(function(transition, j) {
-        if(transition.enabled == 1 && transition.inhibited == 0 && transition.timedInhibited == 0) {
+        if(transition.enabled == 1 && transition.inhibited == 0 && transition.timedInhibited == 0 && transition.commandBus == 1) {
             document.getElementById(transition.name).style.fill = '#55d400';
         } else {
             document.getElementById(transition.name).style.fill = '#d40000';
         }
     });
+
 
     // Clear Tokens:
     document.getElementById("T_0").style.visibility = 'hidden';
@@ -597,7 +673,17 @@ function display()
     document.getElementById("T_PDNA").style.visibility = 'hidden';
     document.getElementById("T_SREF").style.visibility = 'hidden';
     document.getElementById("T_PDNP").style.visibility = 'hidden';
+	
 
+	// Show Command Bus:
+    document.getElementById("g_cb").style.visibility = 'hidden';
+	
+	petriNet.transitions.forEach(function(transition, j) {
+		if(transition.commandBus == 0){
+			document.getElementById("g_cb").style.visibility = 'visible';
+	    }
+	});
+	
     // Show Tokens:
     petriNet.places.forEach(function(place, j) {
         if(place.name == "BANK_0" && place.tokens == 1) {
@@ -615,7 +701,7 @@ function display()
             document.getElementById("T_SREF").style.visibility = 'visible';
         } else if(place.name == "PDNP" && place.tokens == 1) {
             document.getElementById("T_PDNP").style.visibility = 'visible';
-        }
+        }	
     });
 
     // Heart Beat
@@ -627,6 +713,8 @@ function display()
         blinker = 0;
     }
 }
+	
+
 
 function clock() {
     //console.log(document.getElementById("REFA").style.fill);
@@ -638,9 +726,18 @@ function clock() {
             arc.age += tCK;
         }
     });
+	
+	petriNet.places.forEach(function(place,j) {
+        if(place.name == "Command_Bus") {
+           place.age += tCK;
+	    }
+    })
     
     checkTimed();
+	checkCommandBus();
     display();
 
     setTimeout(clock, tCKinRT);
 }
+
+
