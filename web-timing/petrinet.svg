@@ -14,11 +14,7 @@
    version="1.2"
    id="svg4141"
    inkscape:version="0.92.1 r15371"
-   sodipodi:docname="petrinet.svg"
-   onload="init(evt)">
-  <script
-     xlink:href="petrinet.js"
-     id="script2" />
+   sodipodi:docname="petrinet.svg">
   <metadata
      id="metadata5191">
     <rdf:RDF>
