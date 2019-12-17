@@ -12,7 +12,17 @@ M. Jung, K. Kraft, N. Wehn. *IEEE International Conference on Embedded Computer 
 
 ## Executable Model
 
-In order to run the executable models click [here](https://tukl-msd.github.io/DRAMPetri/web/), or open the index.html file in the web folder after cloning the repository.
+In order to run the executable models click [here](https://tukl-msd.github.io/DRAMPetri/web/), or open the index.html file in the web folder after cloning the repository. 
+For security reasons, access to files on the file system is disabled by default from the browser. The following it is described how to adapt Chrome and Firefox to run index.html locally.
+
+**Chrome**
+
+Close all running chrome instances. Edit the way how you start chrome (on shortcut -> Properties -> Target). Change the Target path to:
+"C:\yourpath\chrome.exe" --allow-file-access-from-files
+
+**Firefox**
+
+Open Firefox. Navigate to *about:config* . Search for (CTRL+F) *security.fileuri.strict_origin_policy* and toggle the parameter to true.
 
 ## Playground with pflow Files
 
