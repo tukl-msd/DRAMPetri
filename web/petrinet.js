@@ -238,7 +238,44 @@ function checkEnabled()
 	});
 }
 
-function init(evt) {
+
+		
+// wait until all the resources are loaded
+window.addEventListener("load", findSVGElements, false);
+var subdoc;
+
+// fetches the document for the given embedding_element
+function getSubDocument(embedding_element)
+{
+	if (embedding_element.contentDocument) 
+	{
+		return embedding_element.contentDocument;
+	} 
+	else 
+	{
+		var subdoc = null;
+		try {
+			subdoc = embedding_element.getSVGDocument();
+		} catch(e) {}
+		return subdoc;
+	}
+}
+
+function findSVGElements()
+{
+	var elms = document.querySelectorAll(".petrinet-emb");
+	for (var i = 0; i < elms.length; i++)
+	{
+		subdoc = getSubDocument(elms[i])
+		if (subdoc)
+		{
+			init();
+		}
+	}
+}
+
+
+function init() {
 	checkEnabled();
 	checkInhibited();
 	display();
@@ -247,7 +284,7 @@ function init(evt) {
 	for (i = 0; i < petriNet.transitions.length; i++) {
 		(function(name) {
 
-		   document.getElementById(name).addEventListener('click', function() {
+		   subdoc.getElementById(name).addEventListener('click', function() {
 				clickHandler(name);
 		   });
 
@@ -265,53 +302,53 @@ function display()
 	petriNet.transitions.forEach(function(transition, j){
 		if(transition.enabled == 1 && transition.inhibited == 0) 
 		{
-			document.getElementById(transition.name).style.fill = '#55d400';
+			subdoc.getElementById(transition.name).style.fill = '#55d400';
 		}
 		else
 		{
-			document.getElementById(transition.name).style.fill = '#d40000';
+			subdoc.getElementById(transition.name).style.fill = '#d40000';
 		}
 	});
 
 	// Clear Tokens:
-	document.getElementById("T_0").style.visibility = 'hidden';
-	document.getElementById("T_1").style.visibility = 'hidden';
-	document.getElementById("T_IDLE_0").style.visibility  = 'hidden';
-	document.getElementById("T_IDLE_1").style.visibility  = 'hidden';
-	document.getElementById("T_PDNA").style.visibility = 'hidden';
-	document.getElementById("T_SREF").style.visibility = 'hidden';
-	document.getElementById("T_PDNP").style.visibility = 'hidden';
+	subdoc.getElementById("T_0").style.visibility = 'hidden';
+	subdoc.getElementById("T_1").style.visibility = 'hidden';
+	subdoc.getElementById("T_IDLE_0").style.visibility  = 'hidden';
+	subdoc.getElementById("T_IDLE_1").style.visibility  = 'hidden';
+	subdoc.getElementById("T_PDNA").style.visibility = 'hidden';
+	subdoc.getElementById("T_SREF").style.visibility = 'hidden';
+	subdoc.getElementById("T_PDNP").style.visibility = 'hidden';
 
     // Show Tokens:
 	petriNet.places.forEach(function(place, j){
 		if(place.name == "BANK_0" && place.tokens == 1)
         {
-            document.getElementById("T_0").style.visibility = 'visible';
+            subdoc.getElementById("T_0").style.visibility = 'visible';
         }
         else if(place.name == "BANK_1" && place.tokens == 1)
         {
-            document.getElementById("T_1").style.visibility = 'visible';
+            subdoc.getElementById("T_1").style.visibility = 'visible';
         }
         else if(place.name == "IDLE" && place.tokens == 1)
         {
-            document.getElementById("T_IDLE_0").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_0").style.visibility = 'visible';
         }
         else if(place.name == "IDLE" && place.tokens == 2)
         {
-            document.getElementById("T_IDLE_0").style.visibility = 'visible';
-            document.getElementById("T_IDLE_1").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_0").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_1").style.visibility = 'visible';
         }
         else if(place.name == "PDNA" && place.tokens == 1)
         {
-            document.getElementById("T_PDNA").style.visibility = 'visible';
+            subdoc.getElementById("T_PDNA").style.visibility = 'visible';
         }
         else if(place.name == "SREF" && place.tokens == 1)
         {
-            document.getElementById("T_SREF").style.visibility = 'visible';
+            subdoc.getElementById("T_SREF").style.visibility = 'visible';
         }
         else if(place.name == "PDNP" && place.tokens == 1)
         {
-            document.getElementById("T_PDNP").style.visibility = 'visible';
+            subdoc.getElementById("T_PDNP").style.visibility = 'visible';
         }
 	});
 

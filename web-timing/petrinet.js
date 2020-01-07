@@ -468,8 +468,8 @@ function checkTimed()
         petriNet.arcs.filter(function(arc) {
                 return trans.id == arc.target;
         }).forEach(function(arc, i) {
-            timedArrow = document.getElementById("timedArrow-" + arc.id);
-            timedArrowText = document.getElementById("timedArrowText-" + arc.id);
+            timedArrow = subdoc.getElementById("timedArrow-" + arc.id);
+            timedArrowText = subdoc.getElementById("timedArrowText-" + arc.id);
             
             if(timedArrow != null) {
                 timedArrow.style.visibility = 'hidden';
@@ -560,7 +560,7 @@ function checkCommandBus()
 
 function drawline (id, name, x1, x2, y1, y2) {
 	
-    var svg = document.getElementById("svg4141");
+    var svg = subdoc.getElementById("svg4141"); // XXX
     NS = svg.getAttribute('xmlns');
     var pt1 = svg.createSVGPoint();
     var pt2 = svg.createSVGPoint();
@@ -574,7 +574,7 @@ function drawline (id, name, x1, x2, y1, y2) {
     var pt2b = pt2.matrixTransform(svg.getScreenCTM().inverse());
 
     if (x1 == x2 && y1 == y2) {
-        var ellipticLine = document.createElementNS(NS, 'path');
+        var ellipticLine = subdoc.createElementNS(NS, 'path');
         ellipticLine.setAttributeNS(null, 'id', "timedArrow-" + id);    //M = start coordinate , rx = 14 , ry = 8 , x-rotation(in degree)/large-arc-flag/sweep-flag = 0 , last statement = end coordinate
         ellipticLine.setAttributeNS(null, 'd',"M " + pt1b.x + "," + pt1b.y + " A 14 8 0 0 0 " + pt1b.x + "," + (pt1b.y + 32));
         ellipticLine.setAttributeNS(null, "stroke", "blue");
@@ -583,7 +583,7 @@ function drawline (id, name, x1, x2, y1, y2) {
         ellipticLine.setAttributeNS(null, "visibility", "hidden");
         svg.append(ellipticLine); 
     } else {
-        var newLine = document.createElementNS(NS, 'line');
+        var newLine = subdoc.createElementNS(NS, 'line');
         newLine.setAttributeNS(null, 'id', "timedArrow-" + id);
         newLine.setAttributeNS(null, 'x1', pt1b.x + 16);
         newLine.setAttributeNS(null, 'y1', pt1b.y + 16);
@@ -595,7 +595,7 @@ function drawline (id, name, x1, x2, y1, y2) {
 		
 		svg.append(newLine);
 		
-    var newText = document.createElementNS(NS, "text");
+    var newText = subdoc.createElementNS(NS, "text");
     if (x1 == x2 && y1 == y2) {
         newText.setAttributeNS(null, "x", (pt1b.x - 16));        
         newText.setAttributeNS(null, "y", (pt1b.y - 12));
@@ -610,14 +610,48 @@ function drawline (id, name, x1, x2, y1, y2) {
     newText.setAttributeNS(null, 'id', "timedArrowText-" + id);
     newText.setAttributeNS(null, "visibility", "hidden");
 	
-	var textNode = document.createTextNode(name);
+	var textNode = subdoc.createTextNode(name);
     newText.appendChild(textNode);
 
 
     svg.append(newText);
 }
 
-function init(evt) {
+// wait until all the resources are loaded
+window.addEventListener("load", findSVGElements, false);
+var subdoc;
+
+// fetches the document for the given embedding_element
+function getSubDocument(embedding_element)
+{
+        if (embedding_element.contentDocument)
+        {
+                return embedding_element.contentDocument;
+        }
+        else
+        {
+                var subdoc = null;
+                try {
+                        subdoc = embedding_element.getSVGDocument();
+                } catch(e) {}
+                return subdoc;
+        }
+}
+
+function findSVGElements()
+{
+        var elms = document.querySelectorAll(".petrinet-emb");
+        for (var i = 0; i < elms.length; i++)
+        {
+                subdoc = getSubDocument(elms[i])
+                if (subdoc)
+                {
+                        init();
+                }
+        }
+}
+
+function init(init) {
     checkEnabled();
     checkInhibited();
     display();
@@ -634,15 +668,15 @@ function init(evt) {
                 return f.id == arc.target;
         })[0];
         
-        var rect1 = document.getElementById(transSource.name).getBoundingClientRect();
-        var rect2 = document.getElementById(transTarget.name).getBoundingClientRect();
+        var rect1 = subdoc.getElementById(transSource.name).getBoundingClientRect();
+        var rect2 = subdoc.getElementById(transTarget.name).getBoundingClientRect();
         drawline(arc.id, arc.name, rect1.left, rect2.left, rect1.top, rect2.top);
     })
     
     // Register the click handler for all Transitions:
     for (i = 0; i < petriNet.transitions.length; i++) {
         (function(name) {
-           document.getElementById(name).addEventListener('click', function() {
+           subdoc.getElementById(name).addEventListener('click', function() {
                 clickHandler(name);
            });
         })(petriNet.transitions[i].name);
@@ -658,58 +692,58 @@ function display()
 {
     petriNet.transitions.forEach(function(transition, j) {
         if(transition.enabled == 1 && transition.inhibited == 0 && transition.timedInhibited == 0 && transition.commandBus == 1) {
-            document.getElementById(transition.name).style.fill = '#55d400';
+            subdoc.getElementById(transition.name).style.fill = '#55d400';
         } else {
-            document.getElementById(transition.name).style.fill = '#d40000';
+            subdoc.getElementById(transition.name).style.fill = '#d40000';
         }
     });
 
 
     // Clear Tokens:
-    document.getElementById("T_0").style.visibility = 'hidden';
-    document.getElementById("T_1").style.visibility = 'hidden';
-    document.getElementById("T_IDLE_0").style.visibility  = 'hidden';
-    document.getElementById("T_IDLE_1").style.visibility  = 'hidden';
-    document.getElementById("T_PDNA").style.visibility = 'hidden';
-    document.getElementById("T_SREF").style.visibility = 'hidden';
-    document.getElementById("T_PDNP").style.visibility = 'hidden';
+    subdoc.getElementById("T_0").style.visibility = 'hidden';
+    subdoc.getElementById("T_1").style.visibility = 'hidden';
+    subdoc.getElementById("T_IDLE_0").style.visibility  = 'hidden';
+    subdoc.getElementById("T_IDLE_1").style.visibility  = 'hidden';
+    subdoc.getElementById("T_PDNA").style.visibility = 'hidden';
+    subdoc.getElementById("T_SREF").style.visibility = 'hidden';
+    subdoc.getElementById("T_PDNP").style.visibility = 'hidden';
 	
 
 	// Show Command Bus:
-    document.getElementById("g_cb").style.visibility = 'hidden';
+    subdoc.getElementById("g_cb").style.visibility = 'hidden';
 	
 	petriNet.transitions.forEach(function(transition, j) {
 		if(transition.commandBus == 0){
-			document.getElementById("g_cb").style.visibility = 'visible';
+			subdoc.getElementById("g_cb").style.visibility = 'visible';
 	    }
 	});
 	
     // Show Tokens:
     petriNet.places.forEach(function(place, j) {
         if(place.name == "BANK_0" && place.tokens == 1) {
-            document.getElementById("T_0").style.visibility = 'visible';
+            subdoc.getElementById("T_0").style.visibility = 'visible';
         } else if(place.name == "BANK_1" && place.tokens == 1) {
-            document.getElementById("T_1").style.visibility = 'visible';
+            subdoc.getElementById("T_1").style.visibility = 'visible';
         } else if(place.name == "IDLE" && place.tokens == 1) {
-            document.getElementById("T_IDLE_0").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_0").style.visibility = 'visible';
         } else if(place.name == "IDLE" && place.tokens == 2) {
-            document.getElementById("T_IDLE_0").style.visibility = 'visible';
-            document.getElementById("T_IDLE_1").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_0").style.visibility = 'visible';
+            subdoc.getElementById("T_IDLE_1").style.visibility = 'visible';
         } else if(place.name == "PDNA" && place.tokens == 1) {
-            document.getElementById("T_PDNA").style.visibility = 'visible';
+            subdoc.getElementById("T_PDNA").style.visibility = 'visible';
         } else if(place.name == "SREF" && place.tokens == 1) {
-            document.getElementById("T_SREF").style.visibility = 'visible';
+            subdoc.getElementById("T_SREF").style.visibility = 'visible';
         } else if(place.name == "PDNP" && place.tokens == 1) {
-            document.getElementById("T_PDNP").style.visibility = 'visible';
+            subdoc.getElementById("T_PDNP").style.visibility = 'visible';
         }	
     });
 
     // Heart Beat
     if (blinker == 0 ) {
-        document.getElementById("heart").style.fill = 'white';
+        subdoc.getElementById("heart").style.fill = 'white';
         blinker = 1;
     } else {
-        document.getElementById("heart").style.fill = 'red';
+        subdoc.getElementById("heart").style.fill = 'red';
         blinker = 0;
     }
 }
@@ -717,7 +751,7 @@ function display()
 
 
 function clock() {
-    //console.log(document.getElementById("REFA").style.fill);
+    //console.log(subdoc.getElementById("REFA").style.fill);
 
     petriNet.arcs.filter(function(d) { // Get all timing arcs:
         return (d.type == "timed");
